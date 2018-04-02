@@ -34,7 +34,7 @@
 var AwesomeQRCode;
 
 // QR CODE CORE LIBRARY DEFINITION
-(function() {
+
     // QR CODE CORE LIBRARY DEFINITION START
     // SHOULD NOT BE MODIFIED
     //
@@ -1032,7 +1032,6 @@ var AwesomeQRCode;
             this._elImage.style.display = "none";
             this._bSupportDataURI = null;
             this._callback = htOption.callback;
-            this._bindElement = htOption.bindElement;
         };
 
         Drawing.prototype.draw = function(oQRCode) {
@@ -1125,10 +1124,8 @@ var AwesomeQRCode;
                 _bContext.fill();
             }
 
-            if (_htOption.binarize) {
-                _htOption.colorDark = "#000000";
-                _htOption.colorLight = "#FFFFFF";
-            }
+            _htOption.colorDark = "#000000";
+            _htOption.colorLight = "#FFFFFF";
 
             var agnPatternCenter = QRUtil.getPatternPosition(oQRCode.typeNumber);
 
@@ -1280,61 +1277,46 @@ var AwesomeQRCode;
             _oContext.drawImage(_bkgCanvas, -margin, -margin, size, size);
 
             // Binarize the final image
-            if (_htOption.binarize) {
-                var pixels = _oContext.getImageData(0, 0, size, size);
-                var threshold = 128;
-                if (parseInt(_htOption.binarizeThreshold) > 0 && parseInt(_htOption.binarizeThreshold) < 255) {
-                    threshold = parseInt(_htOption.binarizeThreshold);
-                }
-                for (var i = 0; i < pixels.data.length; i += 4) {
-                    // rgb in [0, 255]
-                    var R = pixels.data[i];
-                    var G = pixels.data[i + 1];
-                    var B = pixels.data[i + 2];
-                    var sum = _greyscale(R, G, B);
-                    if (sum > threshold) {
-                        pixels.data[i] = 255;
-                        pixels.data[i + 1] = 255;
-                        pixels.data[i + 2] = 255;
-                    } else {
-                        pixels.data[i] = 0;
-                        pixels.data[i + 1] = 0;
-                        pixels.data[i + 2] = 0;
-                    }
-                }
-                _oContext.putImageData(pixels, 0, 0);
-
-                // Scale the final image
-                var _fCanvas = document.createElement("canvas");
-                var _fContext = _fCanvas.getContext("2d");
-                _fCanvas.width = rawSize;
-                _fCanvas.height = rawSize;
-                _fContext.drawImage(_tCanvas, 0, 0, rawSize, rawSize);
-                this._elCanvas = _fCanvas;
-
-                // Painting work completed
-                this._bIsPainted = true;
-                if (this._callback !== undefined) {
-                    this._callback(this._elCanvas.toDataURL());
-                }
-                if (this._bindElement !== undefined) {
-                    try {
-                        var el = document.getElementById(this._bindElement);
-                        if (el.nodeName === 'IMG') {
-                            el.src = this._elCanvas.toDataURL();
-                        } else {
-                            var elStyle = el.style;
-                            elStyle["background-image"] = 'url(' + this._elCanvas.toDataURL() + ')';
-                            elStyle["background-size"] = 'contain';
-                            elStyle["background-repeat"] = 'no-repeat';
-                        }
-                    } catch (e) {
-                        console.error(e);
-                    }
-                }
-            } else {
-                throw new Error("No frames.");
+            var pixels = _oContext.getImageData(0, 0, size, size);
+            var threshold = 128;
+            if (parseInt(_htOption.binarizeThreshold) > 0 && parseInt(_htOption.binarizeThreshold) < 255) {
+                threshold = parseInt(_htOption.binarizeThreshold);
             }
+            for (var i = 0; i < pixels.data.length; i += 4) {
+                // rgb in [0, 255]
+                var R = pixels.data[i];
+                var G = pixels.data[i + 1];
+                var B = pixels.data[i + 2];
+                var sum = _greyscale(R, G, B);
+                if (sum > threshold) {
+                    pixels.data[i] = 255;
+                    pixels.data[i + 1] = 255;
+                    pixels.data[i + 2] = 255;
+                } else {
+                    pixels.data[i] = 0;
+                    pixels.data[i + 1] = 0;
+                    pixels.data[i + 2] = 0;
+                }
+            }
+            _oContext.putImageData(pixels, 0, 0);
+
+            // Scale the final image
+            var _fCanvas = document.createElement("canvas");
+            var _fContext = _fCanvas.getContext("2d");
+            _fCanvas.width = rawSize;
+            _fCanvas.height = rawSize;
+            _fContext.drawImage(_tCanvas, 0, 0, rawSize, rawSize);
+            this._elCanvas = _fCanvas;
+
+            // Painting work completed
+            this._bIsPainted = true;
+
+            var callback = this._callback;
+            var fileReader = new FileReader();
+            fileReader.onload = function() {
+                callback(this.result);
+            };
+            fileReader.readAsArrayBuffer(this._elCanvas.toBlob());
 
 
         };
@@ -1440,10 +1422,8 @@ var AwesomeQRCode;
             dotScale: 0.35,
             maskedDots: false,
             autoColor: true,
-            binarize: false,
             binarizeThreshold: 128,
-            callback: undefined,
-            bindElement: undefined
+            callback: undefined
         };
 
         if (typeof vOption === 'string') {
@@ -1574,16 +1554,18 @@ var AwesomeQRCode;
 
         return rgb;
     }
-})();
 
-(function(window, factory) {
-    if (typeof exports === 'object') {
-        module.exports = factory;
-    } else if (typeof define === 'function' && define.amd) {
-        define(factory);
-    } else {
-        window.eventUtil = factory();
-    }
-})(this, function() {
-    return new AwesomeQRCode();
-});
+
+
+function generateQRCode (options) {
+    return new Promise(function (resolve) {
+        options.callback = resolve;
+        new AwesomeQRCode().create(options);
+    });
+}
+
+
+module.exports = {
+    generateQRCode: generateQRCode,
+    QRErrorCorrectLevel: QRErrorCorrectLevel
+};
