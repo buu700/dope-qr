@@ -1,9 +1,8 @@
-Fork/repackage of [Awesome-qr.js](https://github.com/SumiMakito/Awesome-qr.js) to work with
-browser module bundlers and remove GIF stuff.
+Fork of [Awesome-qr.js](https://github.com/SumiMakito/Awesome-qr.js).
 
 ### Copyright &amp; License
 
-Copyright &copy; 2017 Sumi Makito
+Copyright &copy; 2018 Sumi Makito and Ryan Lester
 
 Licensed under Apache License 2.0 License.
 

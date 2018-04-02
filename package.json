@@ -1,15 +1,15 @@
 {
-    "name": "@buu700/awesome-qr",
-    "version": "2.0.2",
-    "description": "An awesome QR code generator written in JavaScript.",
-    "main": "awesome-qr.js",
-    "types": "awesome-qr.d.ts",
+    "name": "dope-qr",
+    "version": "1.0.0",
+    "description": "A dope QR code generator written in JavaScript.",
+    "main": "dope-qr.js",
+    "types": "dope-qr.d.ts",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/buu700/Awesome-qr.js.git"
+        "url": "git+https://github.com/buu700/dope-qr.git"
     },
     "keywords": [
         "qr",
@@ -19,7 +19,7 @@
     "author": "Ryan Lester <hacker@linux.com>",
     "license": "Apache-2.0",
     "bugs": {
-        "url": "https://github.com/buu700/Awesome-qr.js/issues"
+        "url": "https://github.com/buu700/dope-qr/issues"
     },
-    "homepage": "https://github.com/buu700/Awesome-qr.js#readme"
+    "homepage": "https://github.com/buu700/dope-qr#readme"
 }

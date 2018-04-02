@@ -1,4 +1,4 @@
-declare module '@buu700/awesome-qr' {
+declare module 'dope-qr' {
 	/** correctLevel values. */
 	enum QRErrorCorrectLevel {
 		M,
@@ -8,7 +8,7 @@ declare module '@buu700/awesome-qr' {
 	}
 
 	/** QR generation options. */
-	class AwesomeQrOptions {
+	class DopeQrOptions {
 		/** @example 800 */
 		size?: number;
 
@@ -65,5 +65,5 @@ declare module '@buu700/awesome-qr' {
 	}
 
 	/** Returns exchange rates between various currencies and Bitcoin. */
-	const generateQRCode: (options: AwesomeQrOptions) => Promise<Uint8Array>;
+	const generateQRCode: (options: DopeQrOptions) => Promise<Uint8Array>;
 }
