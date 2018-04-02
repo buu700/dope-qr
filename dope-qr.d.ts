@@ -64,6 +64,6 @@ declare module 'dope-qr' {
 		text?: string;
 	}
 
-	/** Returns exchange rates between various currencies and Bitcoin. */
+	/** Generates QR code and returns PNG bytes. */
 	const generateQRCode: (options: DopeQrOptions) => Promise<Uint8Array>;
 }
