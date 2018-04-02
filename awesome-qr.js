@@ -1315,7 +1315,7 @@ var AwesomeQRCode;
             this._elCanvas.toBlob(function (blob) {
                 var fileReader = new FileReader();
                 fileReader.onload = function() {
-                    callback(this.result);
+                    callback(new Uint8Array(this.result));
                 };
                 fileReader.readAsArrayBuffer(blob);
             });
