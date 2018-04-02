@@ -1312,11 +1312,13 @@ var AwesomeQRCode;
             this._bIsPainted = true;
 
             var callback = this._callback;
-            var fileReader = new FileReader();
-            fileReader.onload = function() {
-                callback(this.result);
-            };
-            fileReader.readAsArrayBuffer(this._elCanvas.toBlob());
+            this._elCanvas.toBlob(function (blob) {
+                var fileReader = new FileReader();
+                fileReader.onload = function() {
+                    callback(this.result);
+                };
+                fileReader.readAsArrayBuffer(blob);
+            });
 
 
         };

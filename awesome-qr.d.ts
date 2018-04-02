@@ -59,6 +59,9 @@ declare module '@buu700/awesome-qr' {
 
 		/** @example 128 */
 		binarizeThreshold?: number;
+
+		/** @example 'balls' */
+		text?: string;
 	}
 
 	/** Returns exchange rates between various currencies and Bitcoin. */
