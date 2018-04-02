@@ -1,28 +1,24 @@
 {
-    "name": "awesome-qr",
+    "name": "@buu700/awesome-qr",
     "version": "1.2.0",
     "description": "An awesome QR code generator written in JavaScript.",
-    "main": "awesome-qr-node.js",
+    "main": "awesome-qr.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/SumiMakito/Awesome-qr.js.git"
+        "url": "git+https://github.com/buu700/Awesome-qr.js.git"
     },
     "keywords": [
         "qr",
         "qrcode",
         "barcode"
     ],
-    "author": "Makito <sumimakito@hotmail.com>",
+    "author": "Ryan Lester <hacker@linux.com>",
     "license": "Apache-2.0",
     "bugs": {
-        "url": "https://github.com/SumiMakito/Awesome-qr.js/issues"
+        "url": "https://github.com/buu700/Awesome-qr.js/issues"
     },
-    "homepage": "https://github.com/SumiMakito/Awesome-qr.js#readme",
-    "dependencies": {
-        "canvas": "^1.6.7",
-        "request": "^2.83.0"
-    }
+    "homepage": "https://github.com/buu700/Awesome-qr.js#readme"
 }
