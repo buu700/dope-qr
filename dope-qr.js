@@ -1314,6 +1314,12 @@ var AwesomeQRCode;
             var callback = this._callback;
             this._elCanvas.toBlob(function (blob) {
                 var fileReader = new FileReader();
+
+                /* Workaround for Cordova bug */
+                if (fileReader._realReader) {
+                    fileReader = fileReader._realReader;
+                }
+
                 fileReader.onload = function() {
                     callback(new Uint8Array(this.result));
                 };

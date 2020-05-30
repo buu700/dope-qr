@@ -1,6 +1,6 @@
 {
     "name": "dope-qr",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "A dope QR code generator written in JavaScript.",
     "main": "dope-qr.js",
     "types": "dope-qr.d.ts",
