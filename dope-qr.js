@@ -1124,8 +1124,10 @@ var AwesomeQRCode;
                 _bContext.fill();
             }
 
-            _htOption.colorDark = "#000000";
-            _htOption.colorLight = "#FFFFFF";
+            if (_htOption.binarize) {
+                _htOption.colorDark = "#000000";
+                _htOption.colorLight = "#FFFFFF";
+            }
 
             var agnPatternCenter = QRUtil.getPatternPosition(oQRCode.typeNumber);
 
@@ -1277,28 +1279,30 @@ var AwesomeQRCode;
             _oContext.drawImage(_bkgCanvas, -margin, -margin, size, size);
 
             // Binarize the final image
-            var pixels = _oContext.getImageData(0, 0, size, size);
-            var threshold = 128;
-            if (parseInt(_htOption.binarizeThreshold) > 0 && parseInt(_htOption.binarizeThreshold) < 255) {
-                threshold = parseInt(_htOption.binarizeThreshold);
-            }
-            for (var i = 0; i < pixels.data.length; i += 4) {
-                // rgb in [0, 255]
-                var R = pixels.data[i];
-                var G = pixels.data[i + 1];
-                var B = pixels.data[i + 2];
-                var sum = _greyscale(R, G, B);
-                if (sum > threshold) {
-                    pixels.data[i] = 255;
-                    pixels.data[i + 1] = 255;
-                    pixels.data[i + 2] = 255;
-                } else {
-                    pixels.data[i] = 0;
-                    pixels.data[i + 1] = 0;
-                    pixels.data[i + 2] = 0;
+            if (_htOption.binarize) {
+                var pixels = _oContext.getImageData(0, 0, size, size);
+                var threshold = 128;
+                if (parseInt(_htOption.binarizeThreshold) > 0 && parseInt(_htOption.binarizeThreshold) < 255) {
+                    threshold = parseInt(_htOption.binarizeThreshold);
                 }
+                for (var i = 0; i < pixels.data.length; i += 4) {
+                    // rgb in [0, 255]
+                    var R = pixels.data[i];
+                    var G = pixels.data[i + 1];
+                    var B = pixels.data[i + 2];
+                    var sum = _greyscale(R, G, B);
+                    if (sum > threshold) {
+                        pixels.data[i] = 255;
+                        pixels.data[i + 1] = 255;
+                        pixels.data[i + 2] = 255;
+                    } else {
+                        pixels.data[i] = 0;
+                        pixels.data[i + 1] = 0;
+                        pixels.data[i + 2] = 0;
+                    }
+                }
+                _oContext.putImageData(pixels, 0, 0);
             }
-            _oContext.putImageData(pixels, 0, 0);
 
             // Scale the final image
             var _fCanvas = document.createElement("canvas");
@@ -1430,6 +1434,7 @@ var AwesomeQRCode;
             dotScale: 0.35,
             maskedDots: false,
             autoColor: true,
+            binarize: false,
             binarizeThreshold: 128,
             callback: undefined
         };
